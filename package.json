@@ -17,7 +17,12 @@
     "cypress:local": "env CYPRESS_DEPLOY=local cypress run --project ./src --config-file false --config video=false",
     "cypress:netlify": "env CYPRESS_DEPLOY=netlify cypress run --project ./src --config-file false --config video=false",
     "cypress:local:testonly": "env CYPRESS_SKIP_DEPLOY=true npm run cypress:local",
-    "cypress:netlify:testonly": "env CYPRESS_SKIP_DEPLOY=true npm run cypress:netlify"
+    "cypress:netlify:testonly": "env CYPRESS_SKIP_DEPLOY=true npm run cypress:netlify",
+    "prepublishOnly": "run-s prepublishOnly:*",
+    "prepublishOnly:checkout": "git checkout main",
+    "prepublishOnly:pull": "git pull",
+    "prepublishOnly:install": "npm ci",
+    "prepublishOnly:test": "npm test"
   },
   "repository": {
     "type": "git",
@@ -48,7 +53,7 @@
     "semver": "^7.3.2"
   },
   "devDependencies": {
-    "@netlify/eslint-config-node": "^0.3.0",
+    "@netlify/eslint-config-node": "^2.5.2",
     "cpy": "^8.1.1",
     "cypress": "^6.6.0",
     "execa": "^5.0.0",
@@ -66,6 +71,7 @@
   },
   "husky": {
     "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
       "pre-commit": "prettier --check ."
     }
   },
